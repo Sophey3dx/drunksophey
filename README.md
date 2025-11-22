@@ -86,7 +86,25 @@ try {
     console.log(`Stream flowing at: ${streamUrl}`);
 } catch (err) {
     console.error('Login failed. Bouncer said no:', err);
+    // Error messages include:
+    // - "Please verify your email before logging in..." (new accounts)
+    // - "Account temporarily locked..." (after 5 failed attempts)
 }
+```
+
+### Error Handling 🚨
+
+The client now provides detailed error messages for common issues:
+
+- **Email Verification Required**: New accounts must verify their email before logging in
+- **Account Lockout**: After 5 failed login attempts, accounts are locked for 15 minutes
+- **Rate Limiting**: Registration is limited to 3 attempts per hour per IP
+
+**Registration Flow:**
+```javascript
+const result = await client.register('username', 'email@example.com', 'password');
+console.log(result.message); // "Registration successful! Please check your email..."
+console.log(result.needsEmailVerification); // true
 ```
 
 ## Security & Privacy 🔒

@@ -1,6 +1,6 @@
 {
     "name": "drunksophey",
-    "version": "1.0.6",
+    "version": "1.2.0",
     "description": "Official Client for Sophey.vodka - The drunkest tunnel in town.",
     "main": "index.js",
     "bin": {

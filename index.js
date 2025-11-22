@@ -25,10 +25,7 @@ class DrunkSophey {
         const data = await this.api.register(username, email, password);
         this.token = data.token;
         this.user = {
-            token: data.token,
-            subdomain: data.subdomain,
-            assigned_port: data.assigned_port,
-            stream_url: data.stream_url
+            ...data
         };
         return this.user;
     }
@@ -42,10 +39,7 @@ class DrunkSophey {
         const data = await this.api.login(username, password);
         this.token = data.token;
         this.user = {
-            token: data.token,
-            subdomain: data.subdomain,
-            assigned_port: data.assigned_port,
-            stream_url: data.stream_url
+            ...data
         };
         return this.user;
     }
@@ -57,11 +51,7 @@ class DrunkSophey {
         const data = await this.api.guestLogin();
         this.token = data.token;
         this.user = {
-            token: data.token,
-            subdomain: data.subdomain,
-            assigned_port: data.assigned_port,
-            stream_url: data.stream_url,
-            expires_at: data.expires_at
+            ...data
         };
         return this.user;
     }
@@ -124,6 +114,38 @@ class DrunkSophey {
      */
     async getSystemStatus() {
         return this.api.getSystemStatus();
+    }
+    /**
+     * Admin Interface
+     * Access admin features if the logged-in user has admin privileges.
+     */
+    get admin() {
+        return {
+            getStats: () => {
+                if (!this.token) throw new Error('Not logged in');
+                return this.api.getAdminStats(this.token);
+            },
+            getLeaderboard: () => {
+                if (!this.token) throw new Error('Not logged in');
+                return this.api.getLeaderboard(this.token);
+            },
+            getSecurityLogs: (page, limit) => {
+                if (!this.token) throw new Error('Not logged in');
+                return this.api.getSecurityLogs(this.token, page, limit);
+            },
+            getUsers: (page, limit) => {
+                if (!this.token) throw new Error('Not logged in');
+                return this.api.getUsers(this.token, page, limit);
+            },
+            banUser: (userId, reason) => {
+                if (!this.token) throw new Error('Not logged in');
+                return this.api.banUser(this.token, userId, reason);
+            },
+            unbanUser: (userId) => {
+                if (!this.token) throw new Error('Not logged in');
+                return this.api.unbanUser(this.token, userId);
+            }
+        };
     }
 }
 
