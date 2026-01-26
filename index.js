@@ -115,6 +115,15 @@ class DrunkSophey {
     async getSystemStatus() {
         return this.api.getSystemStatus();
     }
+
+    /**
+     * Get active global announcements
+     * @returns {Promise<Array>} Array of active announcements
+     */
+    async getAnnouncements() {
+        return this.api.getAnnouncements();
+    }
+
     /**
      * Admin Interface
      * Access admin features if the logged-in user has admin privileges.
