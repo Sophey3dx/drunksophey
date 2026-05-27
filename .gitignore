@@ -4,3 +4,4 @@ node_modules/
 .DS_Store
 *.tgz
 test_client.js
+graphify-out/
